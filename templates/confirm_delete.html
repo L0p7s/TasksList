@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Exclusão</title>
+</head>
+<body>
+    <h1>Confirmar Exclusão</h1>
+    <p>Tem certeza de que deseja excluir esta tarefa?</p>
+    <form action="{{ url_for('excluir', id=id) }}" method="post">
+        <button type="submit">Sim</button>
+        <a href="{{ url_for('index') }}">Não</a>
+    </form>
+</body>
+</html>

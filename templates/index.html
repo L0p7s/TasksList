@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Tarefas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Lista de Tarefas</h1>
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Custo</th>
+            <th>Data Limite</th>
+            <th>Ações</th>
+        </tr>
+        {% for tarefa in tarefas %}
+            <tr style="background-color: {% if tarefa[2] >= 1000 %}yellow{% endif %};">
+                <td>{{ tarefa[1] }}</td>
+                <td>R$ {{ tarefa[2] }}</td>
+                <td>{{ tarefa[3] }}</td>
+                <td>
+                    <a href="{{ url_for('editar', id=tarefa[0]) }}">🖉</a>
+                    <a href="{{ url_for('excluir', id=tarefa[0]) }}">❌</a>
+
+                    <!-- Desativar botão 'subir' para a primeira tarefa -->
+                    {% if not loop.first %}
+                        <a href="{{ url_for('mover', id=tarefa[0], direcao='subir') }}">⬆️</a>
+                    {% else %}
+                        <span style="opacity: 0.5;">⬆️</span>
+                    {% endif %}
+
+                    <!-- Desativar botão 'descer' para a última tarefa -->
+                    {% if not loop.last %}
+                        <a href="{{ url_for('mover', id=tarefa[0], direcao='descer') }}">⬇️</a>
+                    {% else %}
+                        <span style="opacity: 0.5;">⬇️</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <h2>Adicionar Tarefa</h2>
+    <form action="{{ url_for('incluir') }}" method="post">
+        <label for="nome">Nome da Tarefa:</label>
+        <input type="text" id="nome" name="nome" required>
+        <label for="custo">Custo (R$):</label>
+        <input type="number" id="custo" name="custo" required>
+        <label for="data_limite">Data Limite:</label>
+        <input type="date" id="data_limite" name="data_limite">
+        <button type="submit">Incluir</button>
+    </form>
+</body>
+</html>
